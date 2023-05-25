@@ -1,0 +1,28 @@
+Calender Table = CALENDAR(MIN(ipl_matches_2008_2022[match_date]),MAX(ipl_matches_2008_2022[match_date]))
+
+Year = YEAR('Calender Table'[Date])
+
+Title Winner = VAR max_date = CALCULATE(MAX('Calender Table'[Date]), ALLSELECTED(ipl_matches_2008_2022), VALUES(ipl_matches_2008_2022))
+var title_winner = CALCULATE(SELECTEDVALUE(ipl_matches_2008_2022[winning_team]), 'Calender Table'[Date] = max_date)
+return title_winner
+
+Matches Won on Toss Decision  = CALCULATE(COUNTROWS(ipl_matches_2008_2022), ipl_matches_2008_2022[toss_winner] = ipl_matches_2008_2022[winning_team]
+
+Batter Runs = CONCATENATE(SUM(ipl_ball_by_ball_2008_2022[batsman_run]), " Runs")
+
+Strike Rate for Batsmen = (SUM(ipl_ball_by_ball_2008_2022[batsman_run])/COUNT(ipl_ball_by_ball_2008_2022[ball_number]))*100
+
+Bowling SR = COUNT(ipl_ball_by_ball_2008_2022[bowler])/SUM(ipl_ball_by_ball_2008_2022[iswicket_delivery])
+
+Bowling Economy Rate = DIVIDE(
+                        SUMX(
+                            FILTER(ipl_ball_by_ball_2008_2022, ipl_ball_by_ball_2008_2022[extra_type] <> "legbyes" && ipl_ball_by_ball_2008_2022[extra_type] <> "byes"), ipl_ball_by_ball_2008_2022[total_run]), (COUNT(ipl_ball_by_ball_2008_2022[overs]))/6
+)
+
+Average by Bowler = DIVIDE(
+                        SUMX(
+                            FILTER(ipl_ball_by_ball_2008_2022, ipl_ball_by_ball_2008_2022[extra_type] <> "legbyes" && ipl_ball_by_ball_2008_2022[extra_type] <> "byes"), ipl_ball_by_ball_2008_2022[total_run]), SUM(ipl_ball_by_ball_2008_2022[iswicket_delivery])
+)
+
+
+
